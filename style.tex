@@ -76,7 +76,7 @@
 % ============================================================
 
 \newcommand{\covertitle}[1]{%
-  {\fontsize{28}{50}\selectfont\bfseries #1\par}%
+  {\fontsize{24}{24}\selectfont\bfseries #1\par}%
 }
 
 \newcommand{\coversubtitle}[1]{%
@@ -86,3 +86,34 @@
 \newcommand{\coverdate}[1]{%
   {\LARGE #1\par}%
 }
+
+% ============================================================
+% Numérotation chapitres
+% ============================================================
+
+\makeatletter
+\@addtoreset{chapter}{part}
+\makeatother
+
+\renewcommand{\thechapter}{\thepart.\arabic{chapter}}
+
+\setlength{\cftchapnumwidth}{3em}
+
+
+% ============================================================
+% Headers et pieds de page
+% ============================================================
+
+\usepackage{fancyhdr}
+
+\pagestyle{fancy}
+\fancyhf{}
+
+% Pages paires
+\fancyhead[LE]{Chapitre \thechapter}
+
+% Pages impaires
+\fancyhead[RO]{Partie \thepart}
+
+% Numéros de page
+\fancyfoot[LE,RO]{\thepage}
