@@ -1,4 +1,5 @@
 function Header(el)
+
   -- Seulement les titres ## avec un attribut author
   if el.level ~= 2 then
     return nil
@@ -11,6 +12,7 @@ function Header(el)
   end
 
   local title = pandoc.utils.stringify(el.content)
+  local identifier = el.identifier
 
   -- Échappement LaTeX minimal
   local function latex_escape(s)
@@ -22,16 +24,44 @@ function Header(el)
   title = latex_escape(title)
   author = latex_escape(author)
 
-  local latex = string.format(
-    "\\chapter[%s \\textit{par %s}]{%s}\n\n" ..
-    "\\chapterrunninghead{%s}\n" ..    
-    "{\\large\\itshape par %s\\par}\n",
+  -- Construction du chapitre.
+  --
+  -- L'argument optionnel de \chapter est utilisé dans la TOC :
+  --   Titre par Auteur
+  --
+  -- L'argument principal est utilisé dans le corps :
+  --   Titre
+  local chapter = string.format(
+    "\\chapter[%s \\textit{par %s}]{%s}",
     title,
     author,
-    title,
-    author,
+    title
+  )
+
+  -- On conserve l'identifiant généré par Pandoc.
+  -- Sans cela, remplacer le Header par un RawBlock fait perdre
+  -- l'ancre que Pandoc aurait normalement créée.
+  if identifier and identifier ~= "" then
+    chapter = string.format(
+      "\\hypertarget{%s}{%%\n%s\\label{%s}}",
+      identifier,
+      chapter,
+      identifier
+    )
+  end
+
+  -- Auteur affiché sous le titre du chapitre
+  local author_line = string.format(
+    "{\\large\\itshape par %s\\par}",
     author
   )
 
+  -- Assemblage final
+  local latex = chapter
+    .. "\n"
+    .. author_line
+    .. "\n"
+
   return pandoc.RawBlock("latex", latex)
+
 end

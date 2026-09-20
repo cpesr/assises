@@ -107,7 +107,7 @@ def blocks_to_markdown(blocks, indent=0, image_url_mapper=None):
 
                 output.append(f"![{alt}]({url})")
 
-                if caption:
+                if caption or "png" in caption:
                     output.append(f"*{caption}*")            
 
         else:
@@ -123,6 +123,8 @@ def blocks_to_markdown(blocks, indent=0, image_url_mapper=None):
                         image_url_mapper=image_url_mapper,
                     )
                 )
+                
+        output.append("\n")
 
     return "\n".join(output)
 
