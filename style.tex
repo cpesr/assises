@@ -1,0 +1,88 @@
+
+% ============================================================
+% Packages
+% ============================================================
+
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{titlesec}
+\usepackage{tocloft}
+\usepackage{babel}
+\babelprovide[
+  main,
+  import,
+  transforms = punctuation.space
+]{french}
+
+
+
+% ============================================================
+% Table des matières
+% ============================================================
+
+% Parties en gras
+\renewcommand{\cftpartfont}{\bfseries}
+\renewcommand{\cftpartpagefont}{\bfseries}
+
+% Chapitres en romain
+\renewcommand{\cftchapfont}{\normalfont}
+\renewcommand{\cftchappagefont}{\normalfont}
+
+% Espacements
+\setlength{\cftbeforechapskip}{2pt}
+\setlength{\cftbeforepartskip}{12pt}
+
+
+% ============================================================
+% Titres de chapitre
+% ============================================================
+
+\titleformat{\chapter}[display]
+  {\normalfont}
+  {\large\chaptername~\thechapter}
+  {8pt}
+  {\Huge\bfseries}
+
+% espace avant / après le titre
+\titlespacing*{\chapter}
+  {0pt}
+  {0pt}
+  {6pt}
+
+
+\renewcommand{\thesection}{\arabic{section}}
+
+\newcommand{\chapterrunninghead}[1]{%
+  \markboth{\chaptername~\thechapter}{\chaptername~\thechapter}%
+}
+
+
+% ============================================================
+% Auteur d'un chapitre
+% ============================================================
+
+\newcommand{\chapterauthor}[1]{%
+  {\large\itshape #1\par}%
+  \vspace{24pt}%
+}
+
+
+% ============================================================
+% Page de couverture
+% ============================================================
+
+\newcommand{\covertitle}[1]{%
+  {\fontsize{28}{50}\selectfont\bfseries #1\par}%
+}
+
+\newcommand{\coversubtitle}[1]{%
+  {\LARGE #1\par}%
+}
+
+\newcommand{\coverdate}[1]{%
+  {\LARGE #1\par}%
+}

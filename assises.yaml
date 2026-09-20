@@ -1,0 +1,24 @@
+
+documentclass: book
+classoption:
+  - openany
+
+papersize: a4
+fontsize: 11pt
+
+geometry:
+  - top=25mm
+  - bottom=25mm
+  - inner=30mm
+  - outer=25mm
+
+toc: true
+toc-depth: 0
+numbersections: true
+
+colorlinks: true
+linkcolor: black
+urlcolor: blue
+
+mainfont: "DejaVu Sans"
+monofont: "DejaVu Sans Mono"
