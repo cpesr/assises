@@ -91,13 +91,18 @@
 % Numérotation chapitres
 % ============================================================
 
+\setlength{\cftchapnumwidth}{3em}
+
+% Numérotation des chapitres par partie : I.1, I.2, II.1...
 \makeatletter
 \@addtoreset{chapter}{part}
 \makeatother
 
 \renewcommand{\thechapter}{\thepart.\arabic{chapter}}
 
-\setlength{\cftchapnumwidth}{3em}
+% Identifiant interne unique pour hyperref
+\providecommand{\theHchapter}{}
+\renewcommand{\theHchapter}{\arabic{part}.\arabic{chapter}}
 
 
 % ============================================================
