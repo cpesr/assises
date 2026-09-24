@@ -46,17 +46,21 @@ def normalize_tree_titles(tree):
     title = tree.get("title")
 
     if not isinstance(title, str) or not title.strip():
-        fallback_title = f"Document {node_id}"
         logger.warning(
-            "Document %s sans titre dans l'arbre; titre de secours applique: %s",
+            "Document %s sans titre dans l'arbre; document ignore",
             node_id,
-            fallback_title,
         )
-        tree["title"] = fallback_title
+        return False
 
-    for child in tree.get("children", []):
-        if isinstance(child, dict):
-            normalize_tree_titles(child)
+    children = tree.get("children", [])
+    if isinstance(children, list):
+        filtered_children = []
+        for child in children:
+            if isinstance(child, dict) and normalize_tree_titles(child):
+                filtered_children.append(child)
+        tree["children"] = filtered_children
+
+    return True
 
 
 def retrieve_tree(root_id):
@@ -65,7 +69,8 @@ def retrieve_tree(root_id):
     paths = data_paths(root_id)
     session = docs_session()
     tree = build_document_tree(session, root_id)
-    normalize_tree_titles(tree)
+    if not normalize_tree_titles(tree):
+        raise ValueError(f"Document racine sans titre: {root_id}")
     write_json(paths["tree"], tree)
 
 
