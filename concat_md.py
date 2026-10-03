@@ -7,7 +7,7 @@ from assises_log import get_logger
 
 logger = get_logger(__name__)
 
-def concat_md(root_id):
+def concat_md(root_id, init_depth=0, init_root=True):
     paths = data_paths(root_id)
     require_file(paths["tree"])
 
@@ -113,7 +113,8 @@ def concat_md(root_id):
                 match = heading_pattern.match(line)
                 if match:
                     level = min(6, len(match.group(1)) + depth)
-                    lines.append("#" * level + match.group(2))
+                    if level > 0 and len(match.group(2).strip()) > 0:
+                        lines.append("#" * level + match.group(2))
                     continue
 
             lines.append(line)
@@ -121,6 +122,7 @@ def concat_md(root_id):
         return "\n".join(lines)
 
     def walk(node, depth=0, is_root=False):
+        print(f"walk: node={node.get('id')}, depth={depth}, is_root={is_root}")
         doc_id = node["id"]
         md_path = paths["md"] / f"{doc_id}.md"
         require_file(md_path)
@@ -137,6 +139,6 @@ def concat_md(root_id):
         for child in node["children"]:
             walk(child, 0 if is_root else depth + 1, is_root=False)
 
-    walk(tree, depth=0, is_root=True)
+    walk(tree, depth=init_depth, is_root=init_root)
 
     paths["document_md"].write_text("\n\n".join(chunks) + "\n")

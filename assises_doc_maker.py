@@ -10,7 +10,6 @@ from doc_md import document_to_markdown
 from md_pdf import markdown_to_pdf, markdown_to_pdf_direct
 from assises_log import configure_logging, get_logger
 
-
 logger = get_logger(__name__)
 
 
@@ -250,9 +249,13 @@ def parse_args():
     )
     parser.add_argument("--retrieve-images", action="store_true")
     parser.add_argument("--md", action="store_true")
-    parser.add_argument("--concat-md", action="store_true")
-    parser.add_argument("--pdf", action="store_true")
-    parser.add_argument("--yaml", nargs="?", default="assises.yaml", help="fichier de metadonnees YAML")
+    parser.add_argument("--concat-md", nargs="?", default="None", const=0,
+                        metavar="initial_depth",
+                        help="concatene les documents markdown en un seul fichier; initial_depth optionnel (par defaut: 0)")
+    parser.add_argument("--no-root", action="store_true", help="le premier document n'est pas le document racine (utilise avec --concat-md)")
+    parser.add_argument("--pdf", nargs="?", default="None", const="assises.yaml", 
+                        metavar="METADATA_FILE",
+                        help="produit unpdf a partir du markdown concatene; METADATA_FILE optionnel (par defaut: assises.yaml)")
     return parser.parse_args()
 
 
@@ -277,10 +280,9 @@ def main():
         convert_docs_to_md(args.root_id)
     if args.concat_md:
         from concat_md import concat_md
-
-        concat_md(args.root_id)
+        concat_md(args.root_id, init_depth=int(args.concat_md), init_root=not args.no_root)
     if args.pdf:
-        metadata_path = Path(__file__).with_name(args.yaml)
+        metadata_path = Path(__file__).with_name(args.pdf)
         markdown_to_pdf_direct(
             data_paths(args.root_id)["document_md"],
             data_paths(args.root_id)["document_pdf"],

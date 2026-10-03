@@ -1,5 +1,10 @@
+metadata:
+  title: "Rapport d’information à la représentation nationale"
+  author: "ASUR - Assises pour l'Université et pour la Recherche - GT PLF"
+  date: "04-10-2026"
+
 variables:
-  documentclass: report
+  documentclass: article
   classoption:
     - openany
 
@@ -16,17 +21,17 @@ variables:
   linkcolor: black
   urlcolor: blue
 
-toc: true
+#toc: true
 toc-depth: 0
 number-sections: true
 
 include-in-header:
-  - style.tex
+  - style-rapport.tex
 
-include-before-body:
-  - titlepage.tex
+#include-before-body:
+#  - titlepage.tex
 
-filters:
-  - chapter-author.lua
+#filters:
+#  - chapter-author.lua
 
-top-level-division: chapter
+#top-level-division: section
