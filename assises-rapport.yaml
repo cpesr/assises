@@ -21,8 +21,8 @@ variables:
   linkcolor: black
   urlcolor: blue
 
-#toc: true
-toc-depth: 0
+toc: true
+toc-depth: 2
 number-sections: true
 
 include-in-header:
