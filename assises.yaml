@@ -20,5 +20,5 @@ colorlinks: true
 linkcolor: black
 urlcolor: blue
 
-mainfont: "DejaVu Sans"
-monofont: "DejaVu Sans Mono"
+#mainfont: "DejaVu Sans"
+#monofont: "DejaVu Sans Mono"

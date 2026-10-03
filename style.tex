@@ -38,14 +38,45 @@
 
 
 % ============================================================
+% Polices
+% ============================================================
+
+\usepackage{fontspec}
+
+% Texte courant
+%\setmainfont{TeX Gyre Heros}[
+\setmainfont{TeX Gyre Adventor}[
+  Ligatures=TeX
+]
+
+
+% Police des titres
+\newfontfamily\titlefont{TeX Gyre Pagella}
+
+% ============================================================
 % Titres de chapitre
 % ============================================================
 
+% Parties
+\titleformat{\part}[display]
+  {\titlefont\Huge\bfseries}
+  {\centering\partname~\thepart}
+  {12pt}
+  {}
+
+% Chapitres
 \titleformat{\chapter}[display]
-  {\normalfont}
+  {\titlefont}
   {\large\chaptername~\thechapter}
   {8pt}
   {\Huge\bfseries}
+
+% Sections
+\titleformat{\section}
+  {\titlefont\Large\bfseries}
+  {\thesection.}
+  {0.5em}
+  {}
 
 % espace avant / après le titre
 \titlespacing*{\chapter}
@@ -122,3 +153,5 @@
 
 % Numéros de page
 \fancyfoot[LE,RO]{\thepage}
+
+\setlength{\headheight}{13.6pt}
