@@ -1,0 +1,32 @@
+variables:
+  documentclass: book
+  classoption:
+    - openany
+
+  papersize: a4
+  fontsize: 11pt
+
+  geometry:
+    - top=25mm
+    - bottom=25mm
+    - inner=30mm
+    - outer=25mm
+
+  colorlinks: true
+  linkcolor: black
+  urlcolor: blue
+
+toc: true
+toc-depth: 0
+number-sections: true
+
+include-in-header:
+  - style.tex
+
+include-before-body:
+  - titlepage.tex
+
+filters:
+  - chapter-author.lua
+
+top-level-division: part

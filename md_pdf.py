@@ -10,26 +10,29 @@ def markdown_to_latex(
     latex_file,
     metadata_file=None,
     template_file=None,
+    style_file="style.tex",
+    titlepage_file="titlepage.tex",
+    lua_filter_file="chapter-author.lua"
 ):
     markdown_file = Path(markdown_file).resolve()
     latex_file = Path(latex_file).resolve()
-    style_file = Path(__file__).resolve().parent / "style.tex"
-    titlepage_file = Path(__file__).resolve().parent / "titlepage.tex"
-    lua_filter_file = Path(__file__).resolve().parent / "chapter-author.lua"
+    style_file = Path(__file__).resolve().parent / style_file
+    titlepage_file = Path(__file__).resolve().parent / titlepage_file
+    lua_filter_file = Path(__file__).resolve().parent / lua_filter_file
 
     cmd = [
         "pandoc",
         str(markdown_file),
         "--metadata-file",
         str(metadata_file),
-        "--include-in-header",
-        str(style_file),
-        "--include-before-body",
-        str(titlepage_file),
-        "--lua-filter",
-        str(lua_filter_file),
-        "--top-level-division=part",
-        "-V lang=fr",
+        #"--include-in-header",
+        #str(style_file),
+        #"--include-before-body",
+        #str(titlepage_file),
+        #"--lua-filter",
+        #str(lua_filter_file),
+        #"--top-level-division=part",
+        #"-V lang=fr",
         "-o",
         str(latex_file)
     ]
@@ -64,7 +67,7 @@ def latex_to_pdf(latex_file, pdf_file, working_dir):
         "lualatex",
         "-interaction=nonstopmode",
         "-halt-on-error",
-        "-V lang=fr",
+        #"-V lang=fr",
         f"-output-directory={TMP_DIR}",
         str(latex_file),
     ]
@@ -115,33 +118,50 @@ def markdown_to_pdf_direct(
     metadata_file=None,
     template_file=None,
 ):
+    base_dir = Path(__file__).resolve().parent
+
     markdown_file = Path(markdown_file).resolve()
     pdf_file = Path(pdf_file).resolve()
-    TMP_DIR.mkdir(parents=True, exist_ok=True)
-    latex_file = TMP_DIR / f"{pdf_file.stem}.tex"
 
-    common = [
+    document_dir = markdown_file.parent
+
+    cmd = [
         "pandoc",
         str(markdown_file),
-        "--metadata-file", str(metadata_file),
-        "--top-level-division=part"
+        "--pdf-engine=lualatex",
+        "--resource-path",
+        str(document_dir),
     ]
 
-    # Garde le LaTeX pour inspection
-    latex_file = str(pdf_file).removesuffix(".pdf") + ".tex"
+    if metadata_file:
+        metadata_file = Path(metadata_file)
+
+        if not metadata_file.is_absolute():
+            metadata_file = base_dir / metadata_file
+
+        cmd += [
+            "--defaults",
+            str(metadata_file.resolve()),
+        ]
+
+    if template_file:
+        template_file = Path(template_file)
+
+        if not template_file.is_absolute():
+            template_file = base_dir / template_file
+
+        cmd += [
+            "--template",
+            str(template_file.resolve()),
+        ]
+
+    cmd += [
+        "-o",
+        str(pdf_file),
+    ]
 
     subprocess.run(
-        common + ["-o", latex_file],
+        cmd,
         check=True,
+        cwd=base_dir,
     )
-
-    # Produit réellement le PDF
-    subprocess.run(
-        common + [
-            "--pdf-engine=lualatex",
-            "-o", str(pdf_file),
-        ],
-        check=True,
-    )
-
-	

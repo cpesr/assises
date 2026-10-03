@@ -7,7 +7,7 @@ import re
 import requests
 
 from doc_md import document_to_markdown
-from md_pdf import markdown_to_pdf
+from md_pdf import markdown_to_pdf, markdown_to_pdf_direct
 from assises_log import configure_logging, get_logger
 
 
@@ -214,10 +214,10 @@ def convert_docs_to_md(root_id):
 
 
 
-def convert_pdf(root_id):
+def convert_pdf(root_id, metadata_file="assises.yaml"):
     paths = data_paths(root_id)
     require_file(paths["document_md"])
-    metadata_path = Path(__file__).with_name("assises.yaml")
+    metadata_path = Path(__file__).with_name(metadata_file)
     require_file(metadata_path)
 
     markdown_to_pdf(
@@ -252,6 +252,7 @@ def parse_args():
     parser.add_argument("--md", action="store_true")
     parser.add_argument("--concat-md", action="store_true")
     parser.add_argument("--pdf", action="store_true")
+    parser.add_argument("--yaml", nargs="?", default="assises.yaml", help="fichier de metadonnees YAML")
     return parser.parse_args()
 
 
@@ -279,7 +280,13 @@ def main():
 
         concat_md(args.root_id)
     if args.pdf:
-        convert_pdf(args.root_id)
+        metadata_path = Path(__file__).with_name(args.yaml)
+        markdown_to_pdf_direct(
+            data_paths(args.root_id)["document_md"],
+            data_paths(args.root_id)["document_pdf"],
+            metadata_file=metadata_path,
+        )
+        #convert_pdf(args.root_id, metadata_file=metadata_path)
 
 
 if __name__ == "__main__":
