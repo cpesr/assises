@@ -35,6 +35,9 @@ include-in-header:
 include-before-body:
   - gtplf-frontpage.tex
 
+include-after-body:
+  - gtplf-backpage.tex
+
 #filters:
 #  - chapter-author.lua
 
