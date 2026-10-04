@@ -249,7 +249,7 @@ def parse_args():
     )
     parser.add_argument("--retrieve-images", action="store_true")
     parser.add_argument("--md", action="store_true")
-    parser.add_argument("--concat-md", nargs="?", default="None", const=0,
+    parser.add_argument("--concat-md", nargs="?", default=0, const=0,
                         metavar="initial_depth",
                         help="concatene les documents markdown en un seul fichier; initial_depth optionnel (par defaut: 0)")
     parser.add_argument("--no-root", action="store_true", help="le premier document n'est pas le document racine (utilise avec --concat-md)")

@@ -31,14 +31,15 @@ number-sections: true
 
 include-in-header:
   - gtplf-style.tex
+  - cover-style.tex
 
 include-before-body:
   - gtplf-frontpage-bis.tex
 
-include-after-body:
-  - gtplf-backpage.tex
+#include-after-body:
+#  - gtplf-backpage.tex
 
-#filters:
-#  - chapter-author.lua
+filters:
+  - backpage.lua
 
 #top-level-division: section
