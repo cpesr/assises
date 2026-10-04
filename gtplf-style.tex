@@ -1,0 +1,111 @@
+% style-rapport.tex
+
+% Le titre est composé par gtplf-frontpage.tex
+\AtBeginDocument{%
+  \renewcommand{\maketitle}{}%
+}
+
+% ------------------------------------------------------------
+% Typographie
+% ------------------------------------------------------------
+
+\usepackage{microtype}
+\usepackage{fontspec}
+
+\setmainfont{TeX Gyre Adventor}[
+  Ligatures=TeX
+]
+
+\newfontfamily\titlefont{TeX Gyre Pagella}
+
+
+% ------------------------------------------------------------
+% Français
+% ------------------------------------------------------------
+
+\usepackage{babel}
+
+\babelprovide[
+  main,
+  import,
+  transforms=punctuation.space
+]{french}
+
+
+% ------------------------------------------------------------
+% Titres de sections
+% ------------------------------------------------------------
+
+\usepackage{titlesec}
+
+\titleformat{\section}
+  {\titlefont\Large\bfseries}
+  {\thesection.}
+  {0.5em}
+  {}
+
+\titleformat{\subsection}
+  {\titlefont\large\bfseries}
+  {\thesubsection.}
+  {0.5em}
+  {}
+
+\titleformat{\subsubsection}
+  {\titlefont\normalsize\bfseries}
+  {\thesubsubsection.}
+  {0.5em}
+  {}
+
+\setcounter{secnumdepth}{3}
+
+
+% ------------------------------------------------------------
+% Sommaire
+% ------------------------------------------------------------
+
+\usepackage{tocloft}
+
+\renewcommand{\cfttoctitlefont}{%
+  \titlefont\Large\bfseries
+}
+
+\setlength{\cftbeforetoctitleskip}{0pt}
+\setlength{\cftaftertoctitleskip}{1em}
+
+
+% ------------------------------------------------------------
+% En-têtes et pieds de page
+% ------------------------------------------------------------
+
+\usepackage{fancyhdr}
+
+\pagestyle{fancy}
+\fancyhf{}
+
+\fancyfoot[C]{\thepage}
+
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\setlength{\headheight}{13.6pt}
+
+
+% ------------------------------------------------------------
+% Images
+% ------------------------------------------------------------
+
+\usepackage{graphicx}
+
+\setkeys{Gin}{
+  width=\linewidth,
+  height=0.8\textheight,
+  keepaspectratio
+}
+
+
+% ------------------------------------------------------------
+% Tableaux
+% ------------------------------------------------------------
+
+\usepackage{booktabs}
+\usepackage{longtable}

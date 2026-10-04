@@ -1,5 +1,5 @@
 metadata:
-  title: "Rapport d’information à la représentation nationale à propos du budget ESR dans le projet de loi de finances 2027"
+  title: "Rapport d’information à la représentation nationale portant sur le budget ESR dans le projet de loi de finances 2027"
   subtitle: "Assises pour l'Université et pour la Recherche"
   author: 
     - Groupe de Travail sur Projet de Loi de Finances 2027
@@ -25,15 +25,15 @@ variables:
   linkcolor: black
   urlcolor: blue
 
-toc: true
+#toc: true
 toc-depth: 2
 number-sections: true
 
 include-in-header:
-  - style-rapport.tex
+  - gtplf-style.tex
 
-#include-before-body:
-#  - titlepage.tex
+include-before-body:
+  - gtplf-frontpage.tex
 
 #filters:
 #  - chapter-author.lua
