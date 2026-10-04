@@ -112,26 +112,35 @@ def markdown_to_pdf(
 
 
 
+from pathlib import Path
+import subprocess
+
+
 def markdown_to_pdf_direct(
     markdown_file,
-    pdf_file,
+    output_file,
     metadata_file=None,
     template_file=None,
 ):
     base_dir = Path(__file__).resolve().parent
 
     markdown_file = Path(markdown_file).resolve()
-    pdf_file = Path(pdf_file).resolve()
+    output_file = Path(output_file).resolve()
 
     document_dir = markdown_file.parent
 
     cmd = [
         "pandoc",
         str(markdown_file),
-        "--pdf-engine=lualatex",
         "--resource-path",
         str(document_dir),
     ]
+
+    # Le moteur PDF n'est utile que pour une sortie PDF
+    if output_file.suffix.lower() == ".pdf":
+        cmd += [
+            "--pdf-engine=lualatex",
+        ]
 
     if metadata_file:
         metadata_file = Path(metadata_file)
@@ -157,7 +166,7 @@ def markdown_to_pdf_direct(
 
     cmd += [
         "-o",
-        str(pdf_file),
+        str(output_file),
     ]
 
     subprocess.run(

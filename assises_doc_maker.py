@@ -23,6 +23,7 @@ def data_paths(root_id):
         "md": base / "md",
         "document_md": base / "document.md",
         "document_pdf": base / "document.pdf",
+        "document_tex": base / "document.tex",
     }
 
 
@@ -253,9 +254,12 @@ def parse_args():
                         metavar="initial_depth",
                         help="concatene les documents markdown en un seul fichier; initial_depth optionnel (par defaut: 0)")
     parser.add_argument("--no-root", action="store_true", help="le premier document n'est pas le document racine (utilise avec --concat-md)")
-    parser.add_argument("--pdf", nargs="?", default="None", const="assises.yaml", 
+    parser.add_argument("--pdf", nargs="?", default=None, const="assises.yaml", 
                         metavar="METADATA_FILE",
-                        help="produit unpdf a partir du markdown concatene; METADATA_FILE optionnel (par defaut: assises.yaml)")
+                        help="produit un pdf a partir du markdown concatene; METADATA_FILE optionnel (par defaut: assises.yaml)")
+    parser.add_argument("--tex", nargs="?", default=None, const="assises.yaml", 
+                        metavar="METADATA_FILE",
+                        help="produit un tex a partir du markdown concatene; METADATA_FILE optionnel (par defaut: assises.yaml)")    
     return parser.parse_args()
 
 
@@ -288,7 +292,13 @@ def main():
             data_paths(args.root_id)["document_pdf"],
             metadata_file=metadata_path,
         )
-        #convert_pdf(args.root_id, metadata_file=metadata_path)
+    if args.tex:
+        metadata_path = Path(__file__).with_name(args.tex)
+        markdown_to_pdf_direct(
+            data_paths(args.root_id)["document_md"],
+            data_paths(args.root_id)["document_tex"],
+            metadata_file=metadata_path,
+        )
 
 
 if __name__ == "__main__":
