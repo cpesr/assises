@@ -1,0 +1,294 @@
+% ============================================================
+% cover-style.tex
+%
+% Style commun aux couvertures :
+%
+%   - fond bleu
+%   - header
+%   - footer
+%   - email vertical
+%   - vague
+%   - environnement backpage
+%
+% La frontpage utilise les macros :
+%
+%   \coverbackground
+%   \coverheader{...}
+%   \coverfooter
+%   \coveremail
+%   \coverwave{x}{y}
+%
+% La backpage est générée depuis Markdown par backpage.lua :
+%
+%   ::: {.backpage}
+%   ...
+%   :::
+%
+% ============================================================
+
+
+% ============================================================
+% DÉPENDANCES
+% ============================================================
+
+\usepackage{tikz}
+\usepackage{graphicx}
+\usepackage{xcolor}
+
+
+% ============================================================
+% COULEURS
+% ============================================================
+
+\definecolor{coverblue}{HTML}{1D2C43}
+\definecolor{covercoral}{HTML}{CF8175}
+
+
+% ============================================================
+% ÉLÉMENTS COMMUNS AUX COUVERTURES
+% ============================================================
+
+
+% ------------------------------------------------------------
+% Fond
+%
+% Page A4 : 210 x 297 mm
+% Rectangle bleu avec marge blanche de 8 mm.
+% ------------------------------------------------------------
+
+\newcommand{\coverbackground}{%
+  \fill[coverblue]
+    (8,8)
+    rectangle
+    (202,289);
+}
+
+
+% ------------------------------------------------------------
+% Header
+%
+% #1 = texte du header
+%
+% Exemples :
+%
+%   \coverheader{RAPPORT D'INFORMATION}
+%   \coverheader{À PROPOS}
+% ------------------------------------------------------------
+
+\newcommand{\coverheader}[1]{%
+
+  % Accent corail
+  \fill[covercoral]
+    (12,266.5)
+    rectangle
+    (30.5,272.2);
+
+  % Texte
+  \node[
+    anchor=west,
+    inner sep=0pt,
+    text=white,
+    font=\sffamily\fontsize{14}{16}\selectfont
+  ] at (33.5,269.3) {%
+    \addfontfeatures{LetterSpace=13}%
+    #1%
+  };
+}
+
+
+% ------------------------------------------------------------
+% Footer commun
+% ------------------------------------------------------------
+
+\newcommand{\coverfooter}{%
+
+  % Assises + groupe de travail
+  \node[
+    anchor=south west,
+    inner sep=0pt,
+    text=white,
+    align=left,
+    font=\sffamily
+  ] at (13,17.5) {%
+    {\fontsize{16}{18}\selectfont\bfseries
+     Assises pour l'Université et pour la Recherche}
+  };
+
+  % Date
+  \node[
+    anchor=south east,
+    inner sep=0pt,
+    text=covercoral,
+    font=\sffamily\fontsize{16}{18}\selectfont
+  ] at (193.5,17.5) {%
+    \addfontfeatures{LetterSpace=10}%
+    OCTOBRE 2026%
+  };
+}
+
+
+% ------------------------------------------------------------
+% Email vertical
+% ------------------------------------------------------------
+
+\newcommand{\coveremail}{%
+  \node[
+    rotate=90,
+    anchor=west,
+    inner sep=0pt,
+    text=coverblue,
+    font=\sffamily\fontsize{14}{16}\selectfont
+  ] at (206.2,8.5) {%
+    assises@agorasur.fr%
+  };
+}
+
+
+% ------------------------------------------------------------
+% Vague
+%
+% #1 = position / déplacement horizontal
+% #2 = position / déplacement vertical
+%
+% Exemples :
+%
+% Frontpage :
+%
+%   \coverwave{0}{4}
+%
+% Backpage, plus basse :
+%
+%   \coverwave{0}{-20}
+%
+% vague.pdf est une page A4 complète.
+% ------------------------------------------------------------
+
+\newcommand{\coverwave}[2]{%
+  \node[
+    anchor=south west,
+    inner sep=0pt
+  ] at (#1,#2) {%
+    \includegraphics[
+      width=210mm,
+      height=297mm
+    ]{vague.pdf}%
+  };
+}
+
+
+% ============================================================
+% BACKPAGE
+%
+% Le filtre backpage.lua transforme :
+%
+%   ::: {.backpage}
+%   contenu Markdown
+%   :::
+%
+% en :
+%
+%   \begin{backpage}
+%   contenu converti par Pandoc
+%   \end{backpage}
+%
+% ============================================================
+
+\newenvironment{backpage}
+{%
+  \clearpage
+  \thispagestyle{empty}%
+
+  % ----------------------------------------------------------
+  % Éléments graphiques de fond
+  % ----------------------------------------------------------
+
+    \begin{tikzpicture}[
+    remember picture,
+    overlay,
+    shift={(current page.south west)},
+    x=1mm,
+    y=1mm
+  ]
+
+    \coverbackground
+    \coverheader{À PROPOS}
+
+    % ----------------------------------------------------------
+    % Vague
+    % ----------------------------------------------------------
+
+    \coverwave{0}{20}
+
+    % ----------------------------------------------------------
+    % Point de référence commun :
+    % on déplace tout le groupe avec cette seule coordonnée.
+    % ----------------------------------------------------------
+
+    \coordinate (backpage-lower) at (18,60);
+
+    % ----------------------------------------------------------
+    % Grand texte
+    % ----------------------------------------------------------
+
+    \node[
+      anchor=north west,
+      inner sep=0pt,
+      text=white,
+      text width=170mm,
+      align=left,
+      font=\sffamily\bfseries\fontsize{23}{27}\selectfont
+    ] (backpage-quote) at (backpage-lower) {%
+      « Ce dont nous rêvons. Ce que nous voulons. »%
+    };
+
+    % ----------------------------------------------------------
+    % Texte explicatif
+    %
+    % Il est placé RELATIVEMENT au bas du grand texte.
+    % ----------------------------------------------------------
+
+    \node[
+      anchor=north west,
+      inner sep=0pt,
+      text=white,
+      text width=170mm,
+      align=left,
+      font=\sffamily\fontsize{12}{16}\selectfont
+    ] at ([yshift=-7mm]backpage-quote.south west) {%
+      Les Assises pour l’Université et pour la Recherche rassemblent
+      la communauté académique pour imaginer collectivement son avenir.
+      De cette réflexion naîtra un Livre blanc, pour faire émerger une
+      vision commune et éclairer les choix qui façonneront l’Université
+      et la Recherche de demain.%
+    };
+
+    \coverfooter
+    \coveremail
+
+  \end{tikzpicture}%
+
+  % ----------------------------------------------------------
+  % Zone de texte
+  % ----------------------------------------------------------
+
+  \vspace*{12mm}%
+
+  \noindent
+  \hspace*{-10mm}%
+  \begin{minipage}[t]{170mm}
+
+    \color{white}%
+    \sffamily
+
+    % Texte 14 pt, interligne 1,5
+    \fontsize{14}{16}\selectfont
+
+    % Paragraphes
+    \setlength{\parindent}{0pt}%
+    \setlength{\parskip}{12pt}%
+
+}
+{%
+    \end{minipage}%
+    \clearpage
+}
