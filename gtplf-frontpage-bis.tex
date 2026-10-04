@@ -1,0 +1,204 @@
+% ============================================================
+% gtplf-frontpage-bis.tex
+%
+% Dépendances :
+%   \usepackage{tikz}
+%   \usepackage{graphicx}
+%   \usepackage{xcolor}
+%
+% Fichiers :
+%   hibou.pdf
+%   vague.pdf
+% ============================================================
+
+\begin{titlepage}
+\thispagestyle{empty}
+
+\definecolor{gtplfblue}{HTML}{1D2C43}
+\definecolor{gtplfcoral}{HTML}{CF8175}
+
+\begin{tikzpicture}[
+  remember picture,
+  overlay,
+  shift={(current page.south west)},
+  x=1mm,
+  y=1mm
+]
+
+% ============================================================
+% 1. FOND
+%
+% Le PDF original possède une marge blanche autour de TOUT
+% le rectangle bleu, pas seulement à droite.
+%
+% A4 = 210 x 297 mm
+% ============================================================
+
+\fill[gtplfblue]
+  (8,8)
+  rectangle
+  (202,289);
+
+
+% ============================================================
+% 2. EN-TÊTE
+% ============================================================
+
+% Rectangle saumon
+\fill[gtplfcoral]
+  (12,266.5)
+  rectangle
+  (30.5,272.2);
+
+% Libellé
+\node[
+  anchor=west,
+  inner sep=0pt,
+  text=white,
+  font=\sffamily\fontsize{14}{16}\selectfont
+] at (33.5,269.3) {%
+  \addfontfeatures{LetterSpace=13}%
+  RAPPORT D'INFORMATION%
+};
+
+
+% ============================================================
+% 3. TITRE
+% ============================================================
+
+\node[
+  anchor=north west,
+  inner sep=0pt,
+  text=white,
+  text width=182mm,
+  align=left,
+  font=\titlefont\bfseries\fontsize{32}{37}\selectfont
+] at (12,252) {%
+  Budget de l'ESR dans le\\
+  projet de loi de finances 2027%
+};
+
+
+% ============================================================
+% 4. SOUS-TITRE
+% ============================================================
+
+\node[
+  anchor=west,
+  inner sep=0pt,
+  text=white,
+  font=\sffamily\fontsize{13.5}{16}\selectfont
+] at (12,208) {%
+  À destination de la représentation nationale%
+};
+
+
+% ============================================================
+% 5. ILLUSTRATION
+%
+% IMPORTANT :
+%
+% vague.pdf est une PAGE A4 complète contenant la vague à
+% sa position originale.
+%
+% hibou.pdf est, lui, recadré autour du hibou.
+%
+% Les deux sont placés dans le même scope. Pour déplacer
+% l'ensemble illustration + vague, modifier uniquement :
+%
+%       xshift
+%       yshift
+%
+% ============================================================
+
+\begin{scope}[shift={(0mm,0mm)}]
+
+  % ----------------------------------------------------------
+  % Vague
+  %
+  % On superpose la page A4 exactement sur la page courante.
+  % Le fond du PDF doit être transparent.
+  % ----------------------------------------------------------
+
+  \node[
+    anchor=south west,
+    inner sep=0pt
+  ] at (0,4) {%
+    \includegraphics[
+      width=210mm,
+      height=297mm
+    ]{vague.pdf}%
+  };
+
+
+  % ----------------------------------------------------------
+  % Hibou
+  %
+  % Position mesurée sur le PDF original.
+  % ----------------------------------------------------------
+
+  \node[
+    anchor=center,
+    inner sep=0pt
+  ] at (105,124) {%
+    \includegraphics[
+      width=92mm
+    ]{hibou.pdf}%
+  };
+
+\end{scope}
+
+
+% ============================================================
+% 6. BLOC INSTITUTIONNEL
+% ============================================================
+
+\node[
+  anchor=south west,
+  inner sep=0pt,
+  text=white,
+  align=left,
+  font=\sffamily
+] at (13,13) {%
+  {\fontsize{13.5}{16}\selectfont\bfseries
+   Assises pour l'Université et pour la Recherche}
+  \\[2.0mm]
+  {\fontsize{11.5}{14}\selectfont
+   Groupe de Travail sur le Projet de Loi de Finances 2027}
+};
+
+
+% ============================================================
+% 7. DATE
+% ============================================================
+
+\node[
+  anchor=south east,
+  inner sep=0pt,
+  text=gtplfcoral,
+  font=\sffamily\fontsize{10.5}{12}\selectfont
+] at (193.5,17.5) {%
+  \addfontfeatures{LetterSpace=10}%
+  OCTOBRE 2026%
+};
+
+
+% ============================================================
+% 8. EMAIL DANS LA MARGE BLANCHE
+%
+% Il est volontairement HORS du rectangle bleu.
+% ============================================================
+
+\node[
+  rotate=90,
+  anchor=west,
+  inner sep=0pt,
+  text=gtplfblue,
+  font=\sffamily\fontsize{9}{10}\selectfont
+] at (206.2,8.5) {%
+  assises@agorasur.fr%
+};
+
+\end{tikzpicture}
+
+\end{titlepage}
