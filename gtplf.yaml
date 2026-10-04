@@ -41,5 +41,6 @@ include-before-body:
 
 filters:
   - backpage.lua
+  - toc.lua
 
 #top-level-division: section
