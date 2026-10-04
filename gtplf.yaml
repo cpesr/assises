@@ -26,7 +26,7 @@ variables:
   urlcolor: blue
 
 #toc: true
-toc-depth: 2
+toc-depth: 0
 number-sections: true
 
 include-in-header:
