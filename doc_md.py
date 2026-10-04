@@ -88,6 +88,9 @@ def blocks_to_markdown(blocks, indent=0, image_url_mapper=None):
         elif block_type == "divider":
             output.append("\n---\n")
 
+        elif block_type == "pageBreak":
+            output.append("\n\\newpage\n")
+
         elif block_type == "quote":
             lines = content.splitlines() or [""]
             output.append("\n".join(f"> {line}" for line in lines))
