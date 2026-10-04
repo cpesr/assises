@@ -33,7 +33,7 @@ include-in-header:
   - gtplf-style.tex
 
 include-before-body:
-  - gtplf-frontpage.tex
+  - gtplf-frontpage-bis.tex
 
 include-after-body:
   - gtplf-backpage.tex
