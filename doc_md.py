@@ -110,8 +110,8 @@ def blocks_to_markdown(blocks, indent=0, image_url_mapper=None):
 
                 output.append(f"![]({url})")
 
-                #if caption or "png" in caption:
-                #    output.append(f"*{caption}*")            
+                if caption or "png" in caption:
+                    output.append(f"*{caption}*")            
 
         else:
             # Fallback : ne pas perdre le texte d'un bloc inconnu
